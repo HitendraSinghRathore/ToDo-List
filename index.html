@@ -11,12 +11,13 @@
     <div class="row">
 
         <input type="text" class=" col-xs-6 form-control" style="max-width: 50%; margin:15px 15px 10px 20px" ng-model="todo.task" />
-        <button class="btn btn-success col-xs-4 col-md-5" style="margin-top: 15px; margin-bottom: 10px" ng-click="todo.task && todo.addTask()">Add Task</button>
+        <button class="btn btn-success col-xs-4 col-md-5" style="margin-top: 15px; margin-bottom: 10px" ng-click="todo.task && todo.addTask()" ng-if='!todo.editMode'>Add Task</button>
+        <button class="btn btn-info col-xs-4 col-md-5" style="margin-top: 15px; margin-bottom: 10px" ng-click="todo.task && todo.update()" ng-if='todo.editMode'>Edit Task</button>
     </div>
     <ul class="list-group">
         <li class="list-group-item list-group-item-warning" ng-repeat="task in todo.tasks track by $index">{{$index +1}}. {{task}}
-            <button class="btn btn-danger" ng-click="todo.deleteTask()">Delete</button>
-            <button class="btn btn-info">Edit</button>
+            <button class="btn btn-danger" ng-click="todo.deleteTask($index)">Delete</button>
+            <button class="btn btn-info" ng-click="todo.editTask($index)">Edit</button>
         </li>
 
 
