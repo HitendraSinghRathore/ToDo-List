@@ -6,18 +6,27 @@
     <script src="app.js"></script>
 </head>
 
-<body ng-app="todoApp" ng-controller="appController as todo">
+<body ng-app="todoApp" ng-controller="appController as todo" style="background-color: paleturquoise">
     <h1 class="text-center  text-success"><strong>TO DO LIST!!</strong></h1>
     <div class="row">
-
-        <input type="text" class=" col-xs-6 form-control" style="max-width: 50%; margin:15px 15px 10px 20px" ng-model="todo.task" />
-        <button class="btn btn-success col-xs-4 col-md-5" style="margin-top: 15px; margin-bottom: 10px" ng-click="todo.task && todo.addTask()" ng-if='!todo.editMode'>Add Task</button>
-        <button class="btn btn-info col-xs-4 col-md-5" style="margin-top: 15px; margin-bottom: 10px" ng-click="todo.task && todo.update()" ng-if='todo.editMode'>Edit Task</button>
+        <div class="col-xs-6">
+            <input type="text" class="form-control" ng-model="todo.task" />
+        </div>
+        <div>
+            <button ng-class="{'btn btn-success col-xs-6' :!todo.editMode,'btn btn-info col-xs-6' : todo.editMode }" ng-click="todo.task && (todo.editMode==false?todo.addTask():todo.update())">{{!todo.editMode?'Add Task':'update'}}</button>
+        </div>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item list-group-item-warning" ng-repeat="task in todo.tasks track by $index">{{$index +1}}. {{task}}
-            <button class="btn btn-danger" ng-click="todo.deleteTask($index)">Delete</button>
-            <button class="btn btn-info" ng-click="todo.editTask($index)">Edit</button>
+    <ul class="list-group" style="margin-top: 1em">
+        <li ng-class="{'list-group-item list-group-item-danger' : !task.status,'list-group-item list-group-item-success' : task.status}" ng-repeat="task in todo.tasks ">{{$index +1}}. {{task.title}}
+            <div style="float : right; margin-bottom: 10px">
+                <button class="btn btn-success" ng-click="todo.doneTask($index)"><span ng-class="{'glyphicon glyphicon-ok' :!task.status,'glyphicon glyphicon-ok-sign' : task.status}"></button>
+                <button class="btn btn-warning" ng-click="todo.upTask($index)" ng-if="!task.status"><span class="glyphicon glyphicon-chevron-up"></button>
+                <button class="btn btn-warning" ng-click="todo.downTask($index)" ng-if="!task.status"><span class="glyphicon glyphicon-chevron-down"></button>
+
+                <button class="btn btn-danger" ng-click="todo.deleteTask($index)" ng-if="!task.status"><span class="glyphicon glyphicon-remove"></button>
+                <button class="btn btn-info" ng-click="todo.editTask($index)" ng-if="!task.status"><span class="glyphicon glyphicon-pencil"></button>
+
+            </div>
         </li>
 
 
