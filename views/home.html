@@ -1,0 +1,14 @@
+<div ng-controller="secondCtrl as second">
+    <h1 class="text-center  text-success"><strong>To-Do-List</strong></h1>
+    <input type="text" ng-model="second.text" class="form-control" />
+    <button ng-click="second.text && second.click()" class="btn btn-success col-xs-offset-6 col-sm-offset-6">ADD</button>
+    <ul class="list-group" style="margin-top:1em">
+
+        <li ng-repeat="list in second.listGroup" class="list-group-item list-group-item-success">
+            <a href="#!/{{list.listName}}">
+                <div>{{list.listName}}</div>
+            </a>
+        </li>
+
+    </ul>
+</div>

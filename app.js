@@ -1,9 +1,31 @@
-angular.module("todoApp", []).controller("appController", appController)
+angular.module("todoApp", ['ngRoute'])
+    .config(function($routeProvider) {
+        $routeProvider
+            .when("/", { templateUrl: "views/home.html" })
+            .when("/:listname", { templateUrl: "views/lists.html" })
+            .otherwise({ redirectTo: 'views/home.html' })
+    })
+    .controller("appController", appController)
+    .controller("secondCtrl", secondCtrl)
+    .factory("taskService", taskService)
 
-function appController() {
+function taskService() {
+    return [];
+}
+
+function appController(taskService, $routeParams) {
     var todo = this;
-    todo.tasks = [];
+
+    for (var i = 0; i < taskService.length; i++) {
+        var element = taskService[i];
+        if (element.listName == $routeParams.listname) {
+            todo.tasks = element.tasks;
+            todo.title = element.listName;
+
+        }
+    }
     todo.addTask = addTask;
+
 
     var position = 0;
     todo.editMode = false;
@@ -54,5 +76,17 @@ function appController() {
         todo.task = todo.tasks[index].title;
         todo.editMode = true;
 
+    }
+}
+
+function secondCtrl(taskService) {
+    var second = this;
+    second.listGroup = taskService;
+    second.click = function() {
+        var obj = {};
+        obj.listName = second.text;
+        obj.tasks = [];
+        second.listGroup.push(obj);
+        second.text = "";
     }
 }
